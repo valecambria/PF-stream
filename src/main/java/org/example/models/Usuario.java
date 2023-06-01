@@ -1,5 +1,7 @@
 package org.example.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Usuario {
@@ -9,10 +11,23 @@ public class Usuario {
     private Integer id;
     private static int ultimoId;
 
+    private List<Factura> facturas;
+
     public Usuario(String nombre, String apellido) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.id = ++ultimoId;
+        this.facturas = new ArrayList<>();
+    }
+
+    public List<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public void addFacturas(Factura facturas) {
+
+        this.facturas.add(facturas);
+        facturas.setUsuario(this);
     }
 
     public Integer getId() {

@@ -2,19 +2,20 @@ package org.example;
 
 import org.example.models.Usuario;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class EjemploStreamFilter {
+public class EjemploStreamFlatMap {
     public static void main(String[] args) {
         Stream<Usuario> nombres = Stream.of("Pato Guzman", "Paco Gonzalez", "Pepa Gutierrez", "Pepe Mena", "Pepe Garcia")
                 .map(nombre -> new Usuario(nombre.split(" ")[0], nombre.split(" ")[1]))
-                .filter(nom -> nom.getNombre().equals("Pepe"))
+                .flatMap(nom -> {
+                    if(nom.getNombre().equalsIgnoreCase("Pepe")){
+                        return Stream.of(nom);
+                    }
+                    return Stream.empty();
+                }) //el flatmap devuelve varias salidas, por cada elemento devuelve un stream separado
                 .peek(System.out::println);
         System.out.println(nombres.count());
-
-        List<Usuario> lista = nombres.collect(Collectors.toList());
-        lista.forEach(System.out::println);
+     //nombres.forEach(System.out::println);
     }
 }
